@@ -1,0 +1,15 @@
+{
+  "name": "fake-react",
+  "private": true,
+  "workspaces": ["*"],
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "zcma11",
+  "license": "MIT",
+  "scripts": {
+    "test": "cd demo && yarn dev"
+  },
+  "dependencies":{
+    "fake-react-core": "workspace:*"
+  }
+}
