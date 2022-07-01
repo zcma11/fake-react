@@ -1,6 +1,6 @@
-import { Placement } from "./utils"
+import { Placement } from './utils'
 
-export const createFiberNode = (vnode, returnFiber) => {
+export const createFiberNode = (vnode, returnFiber = null) => {
   const fiber = {
     type: vnode.type,
     props: vnode.props,
