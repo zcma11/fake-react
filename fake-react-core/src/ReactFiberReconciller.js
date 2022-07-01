@@ -16,7 +16,6 @@ export const updateFunctionComponent = wip => {
 }
 
 export const updateClassComponent = wip => {
-  console.dir(wip.type)
   const children = new wip.type(wip.props)
   reconcileChildren(wip, children.render())
 }

@@ -7,6 +7,7 @@ export class ReactDOMRoot {
   }
 
   render(children) {
+    console.log('start', children)
     updateContainer(children, this._internalRoot)
   }
 
