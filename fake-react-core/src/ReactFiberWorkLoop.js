@@ -1,11 +1,13 @@
 import {
   updateClassComponent,
+  updateFragmentComponent,
   updateFunctionComponent,
   updateHostComponent,
   updateTextComponent
 } from './ReactFiberReconciller'
 import {
   ClassComponent,
+  Fragment,
   FunctionComponent,
   HostComponent,
   HostText
@@ -34,6 +36,9 @@ export const performUnitOfWork = () => {
       break
     case HostText:
       updateTextComponent(wip)
+      break
+    case Fragment:
+      updateFragmentComponent(wip)
       break
   }
 

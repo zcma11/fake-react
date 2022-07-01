@@ -27,10 +27,10 @@ const jsx = (
     <FunctionComponent name="1"></FunctionComponent>
     <ClassComponent name="2"></ClassComponent>
     文本
-    <React.Fragment>
+    <>
       <div>123</div>
       <div>456</div>
-    </React.Fragment>
+    </>
   </div>
 )
 
