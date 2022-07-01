@@ -20,6 +20,10 @@ export const updateClassComponent = wip => {
   reconcileChildren(wip, children.render())
 }
 
+export const updateTextComponent = wip => {
+  wip.stateNode = document.createTextNode(wip.props.children)
+}
+
 const updateNode = (ele, props) => {
   Object.keys(props).forEach(key => {
     if (key !== 'children') {

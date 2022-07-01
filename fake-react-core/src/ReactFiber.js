@@ -1,9 +1,10 @@
 import {
   ClassComponent,
   FunctionComponent,
-  HostComponent
+  HostComponent,
+  HostText
 } from './ReactWorkTags'
-import { isFunction, isString, Placement } from './utils'
+import { isFunction, isString, isUndefined, Placement } from './utils'
 
 export const createFiberNode = (vnode, returnFiber = null) => {
   const fiber = {
@@ -25,6 +26,9 @@ export const createFiberNode = (vnode, returnFiber = null) => {
     fiber.tag = type.prototype.isReactComponent
       ? ClassComponent
       : FunctionComponent
+  } else if (isUndefined(type)) {
+    fiber.tag = HostText
+    fiber.props = { children: vnode }
   }
 
   return fiber

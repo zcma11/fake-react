@@ -1,10 +1,16 @@
 import {
   updateClassComponent,
   updateFunctionComponent,
-  updateHostComponent
+  updateHostComponent,
+  updateTextComponent
 } from './ReactFiberReconciller'
-import { ClassComponent, FunctionComponent, HostComponent } from './ReactWorkTags'
-import { isFunction, isString, Placement } from './utils'
+import {
+  ClassComponent,
+  FunctionComponent,
+  HostComponent,
+  HostText
+} from './ReactWorkTags'
+import { Placement } from './utils'
 
 let wip = null
 let wipRoot = null
@@ -16,7 +22,7 @@ export const scheduleUpdateOnFiber = fiber => {
 
 export const performUnitOfWork = () => {
   if (!wip) return
-  switch(wip.tag) {
+  switch (wip.tag) {
     case HostComponent:
       updateHostComponent(wip)
       break
@@ -25,6 +31,9 @@ export const performUnitOfWork = () => {
       break
     case FunctionComponent:
       updateFunctionComponent(wip)
+      break
+    case HostText:
+      updateTextComponent(wip)
       break
   }
 

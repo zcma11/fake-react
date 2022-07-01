@@ -26,6 +26,7 @@ const jsx = (
     <p>someofs,faoefjowif</p>
     <FunctionComponent name="1"></FunctionComponent>
     <ClassComponent name="2"></ClassComponent>
+    文本
   </div>
 )
 
