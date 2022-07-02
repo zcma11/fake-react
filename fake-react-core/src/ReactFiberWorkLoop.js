@@ -12,6 +12,7 @@ import {
   HostComponent,
   HostText
 } from './ReactWorkTags'
+import { unstable_scheduleCallback as scheduleCallback } from './scheduler'
 import { Placement } from './utils'
 
 let wip = null
@@ -20,6 +21,7 @@ let wipRoot = null
 export const scheduleUpdateOnFiber = fiber => {
   wip = fiber
   wipRoot = fiber
+  scheduleCallback(workLoop)
 }
 
 export const performUnitOfWork = () => {
@@ -59,8 +61,8 @@ export const performUnitOfWork = () => {
   wip = null
 }
 
-export const workLoop = IdleDeadline => {
-  while (wip && IdleDeadline.timeRemaining() > 0) {
+export const workLoop = () => {
+  while (wip) {
     performUnitOfWork()
   }
 
@@ -68,8 +70,6 @@ export const workLoop = IdleDeadline => {
     commitRoot()
   }
 }
-
-requestIdleCallback(workLoop)
 
 const commitRoot = () => {
   console.log('finally', wipRoot)
