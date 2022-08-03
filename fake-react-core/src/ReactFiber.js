@@ -18,7 +18,9 @@ export const createFiberNode = (vnode, returnFiber = null) => {
     sibling: null,
     flags: Placement,
     index: null,
-    tag: undefined
+    tag: undefined,
+    memorizedState: null,
+    alternate: null
   }
 
   const { type } = vnode

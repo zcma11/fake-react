@@ -1,5 +1,6 @@
 import { createFiberNode } from './ReactFiber'
 import { isArray, isNumber, isString } from './utils'
+import { renderWithHook } from './hooks'
 
 export const updateHostComponent = wip => {
   if (!wip.stateNode) {
@@ -11,6 +12,7 @@ export const updateHostComponent = wip => {
 }
 
 export const updateFunctionComponent = wip => {
+  renderWithHook(wip)
   const children = wip.type(wip.props)
   reconcileChildren(wip, children)
 }
