@@ -14,3 +14,7 @@ export const isString = isVaild('String')
 export const isNumber = isVaild('Number')
 export const isUndefined = isVaild('Undefined')
 export const isSymbol = isVaild('Symbol')
+
+export const sameNode = (f1, f2) => {
+  return !!f1 && f2 && f1.type === f2.type && f1.key === f2.key
+}

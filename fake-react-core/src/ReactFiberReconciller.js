@@ -1,11 +1,12 @@
 import { createFiberNode } from './ReactFiber'
-import { isArray, isNumber, isString } from './utils'
+import { isArray, isNumber, isString, sameNode, Update } from './utils'
 import { renderWithHook } from './hooks'
 
+// 调度会传不同的 wip，可以是上一次保存下来的
 export const updateHostComponent = wip => {
   if (!wip.stateNode) {
     wip.stateNode = document.createElement(wip.type)
-    updateNode(wip.stateNode, wip.alternate?.props, wip.props)
+    updateNode(wip.stateNode, {}, wip.props)
   }
 
   reconcileChildren(wip, wip.props.children)
@@ -30,35 +31,66 @@ export const updateFragmentComponent = wip => {
   reconcileChildren(wip, wip.props.children)
 }
 
-const updateNode = (ele, preProps, props) => {
+export const updateNode = (ele, preProps, props) => {
+  Object.keys(preProps).forEach(key => {
+    if (!(key in props)) {
+      if (key.startsWith('on')) {
+        ele.removeEventListener(key.slice(2), preProps[key])
+      } else {
+        props[key] = ''
+      }
+    }
+  })
+
   Object.keys(props).forEach(key => {
     if (key.startsWith('on')) {
       const eventName = key.slice(2).toLowerCase()
-      if (preProps && preProps[key] !== props[key]) {
+      if (preProps?.[key] && preProps[key] !== props[key]) {
         ele.removeEventListener(eventName, preProps[key])
       }
       ele.addEventListener(eventName, props[key])
-    } else if (key !== 'children') {
+    } else if (key === 'children') {
+      if (isString(props.children) || isNumber(props.children)) {
+        ele.textContent = props.children
+      }
+    } else {
       ele[key] = props[key]
     }
   })
 }
 
-const reconcileChildren = (wip, children) => {
+export const reconcileChildren = (wip, children) => {
   if (isString(children) || isNumber(children)) {
-    wip.stateNode.textContent = children
     return
   } else if (!isArray(children)) {
     children = [children]
   }
 
-  wip.child = createFiberNode(children[0], wip)
-
-  let lastFiber = wip.child
-  for (let i = 1; i < children.length; i++) {
+  let oldFiber = wip.alternate?.child
+  let lastFiber = null
+  for (let i = 0; i < children.length; i++) {
     const child = children[i]
     const fiber = createFiberNode(child, wip)
-    lastFiber.sibling = fiber
+    const isSame = sameNode(oldFiber, fiber)
+
+    if (isSame) {
+      Object.assign(fiber, {
+        stateNode: oldFiber.stateNode,
+        alternate: oldFiber,
+        flags: Update
+      })
+    }
+
+    if (oldFiber) {
+      oldFiber = oldFiber.sibling
+    }
+
+    if (lastFiber === null) {
+      wip.child = fiber
+    } else {
+      lastFiber.sibling = fiber
+    }
+
     lastFiber = fiber
   }
 }

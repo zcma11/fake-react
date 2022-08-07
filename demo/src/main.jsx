@@ -1,18 +1,20 @@
-import { React, ReactDOM } from './myReact'
+import { React, ReactDOM, useReducer } from './myReact'
 // import App from './App'
 import './index.css'
 console.log(React, ReactDOM)
 
 function FunctionComponent(props) {
+  const [count, addCount] = useReducer(c => c + 1, 0)
   return (
     <div>
+      <button onClick={addCount}>{count}</button>
       <p>{props.name}</p>
     </div>
   )
 }
 
 class ClassComponent extends React.Component {
-  render () {
+  render() {
     return (
       <div>
         <h2>{this.props.name}</h2>
@@ -22,7 +24,9 @@ class ClassComponent extends React.Component {
 }
 const jsx = (
   <div>
-    <h1 className="red" onClick={() => console.log(1)}>hello</h1>
+    <h1 className="red" onClick={() => console.log(1)}>
+      hello
+    </h1>
     <p>someofs,faoefjowif</p>
     <FunctionComponent name="1"></FunctionComponent>
     <ClassComponent name="2"></ClassComponent>
@@ -34,7 +38,8 @@ const jsx = (
   </div>
 )
 
-ReactDOM.createRoot(document.getElementById('root')).render(jsx
+ReactDOM.createRoot(document.getElementById('root')).render(
+  jsx
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>

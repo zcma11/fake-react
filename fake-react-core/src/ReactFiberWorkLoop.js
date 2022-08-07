@@ -3,6 +3,7 @@ import {
   updateFragmentComponent,
   updateFunctionComponent,
   updateHostComponent,
+  updateNode,
   updateTextComponent
 } from './ReactFiberReconciller'
 import {
@@ -13,7 +14,7 @@ import {
   HostText
 } from './ReactWorkTags'
 import { unstable_scheduleCallback as scheduleCallback } from './scheduler'
-import { Placement } from './utils'
+import { Placement, Update } from './utils'
 
 let wip = null
 let wipRoot = null
@@ -87,6 +88,9 @@ const commitWorker = wip => {
     parentEle.appendChild(stateNode)
   }
   // 更新
+  if (flags & Update && stateNode) {
+    updateNode(stateNode, wip.alternate.props, wip.props)
+  }
   // 删除
 
   // child

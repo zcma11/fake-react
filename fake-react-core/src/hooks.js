@@ -1,5 +1,5 @@
-let currentRenderingFiber = null
-let workInProgressHook = null
+export let currentRenderingFiber = null
+export let workInProgressHook = null
 
 export function renderWithHook(wip) {
   currentRenderingFiber = wip
@@ -7,7 +7,7 @@ export function renderWithHook(wip) {
   workInProgressHook = null
 }
 
-function updateWorkInProgressHook() {
+export function updateWorkInProgressHook() {
   let hook
 
   const current = currentRenderingFiber.alternate
