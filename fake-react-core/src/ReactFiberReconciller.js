@@ -5,7 +5,7 @@ import { renderWithHook } from './hooks'
 export const updateHostComponent = wip => {
   if (!wip.stateNode) {
     wip.stateNode = document.createElement(wip.type)
-    updateNode(wip.stateNode, wip.props)
+    updateNode(wip.stateNode, wip.alternate?.props, wip.props)
   }
 
   reconcileChildren(wip, wip.props.children)
@@ -30,9 +30,15 @@ export const updateFragmentComponent = wip => {
   reconcileChildren(wip, wip.props.children)
 }
 
-const updateNode = (ele, props) => {
+const updateNode = (ele, preProps, props) => {
   Object.keys(props).forEach(key => {
-    if (key !== 'children') {
+    if (key.startsWith('on')) {
+      const eventName = key.slice(2).toLowerCase()
+      if (preProps && preProps[key] !== props[key]) {
+        ele.removeEventListener(eventName, preProps[key])
+      }
+      ele.addEventListener(eventName, props[key])
+    } else if (key !== 'children') {
       ele[key] = props[key]
     }
   })
