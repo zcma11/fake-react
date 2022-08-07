@@ -22,7 +22,7 @@ class ClassComponent extends React.Component {
 }
 const jsx = (
   <div>
-    <h1 className="red">hello</h1>
+    <h1 className="red" onClick={() => console.log(1)}>hello</h1>
     <p>someofs,faoefjowif</p>
     <FunctionComponent name="1"></FunctionComponent>
     <ClassComponent name="2"></ClassComponent>
