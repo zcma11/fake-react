@@ -1,13 +1,15 @@
-import { React, ReactDOM, useReducer } from './myReact'
+import { React, ReactDOM, useReducer, useState } from './myReact'
 // import App from './App'
 import './index.css'
 console.log(React, ReactDOM)
 
 function FunctionComponent(props) {
   const [count, addCount] = useReducer(c => c + 1, 0)
+  const [count1, setCount1] = useState(0)
   return (
     <div>
-      <button onClick={addCount}>{count}</button>
+      <button onClick={() => addCount()}>{count}</button>
+      <button onClick={() => setCount1(count1 + 1)}>{count1}</button>
       <p>{props.name}</p>
     </div>
   )

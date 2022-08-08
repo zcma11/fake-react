@@ -9,8 +9,8 @@ export const useReducer = (reducer, initArg, init) => {
   }
 
   const fiber = currentRenderingFiber
-  const dispatch = () => {
-    hook.memorizedState = reducer(hook.memorizedState)
+  const dispatch = newVal => {
+    hook.memorizedState = reducer ? reducer(hook.memorizedState) : newVal
     fiber.alternate = { ...fiber }
     fiber.sibling = null
     scheduleUpdateOnFiber(fiber)

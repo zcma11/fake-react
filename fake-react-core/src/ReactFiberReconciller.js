@@ -32,6 +32,7 @@ export const updateFragmentComponent = wip => {
 }
 
 export const updateNode = (ele, preProps, props) => {
+  console.log(ele, preProps, props)
   Object.keys(preProps).forEach(key => {
     if (!(key in props)) {
       if (key.startsWith('on')) {
