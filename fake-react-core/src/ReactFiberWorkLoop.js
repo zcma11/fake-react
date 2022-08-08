@@ -92,11 +92,22 @@ const commitWorker = wip => {
     updateNode(stateNode, wip.alternate.props, wip.props)
   }
   // 删除
+  if (wip.deletions) {
+    commitDeletion(wip.deletions, stateNode || parentEle)
+    wip.deletion = null
+  }
 
   // child
   commitWorker(wip.child)
   // sibling
   commitWorker(wip.sibling)
+}
+
+const commitDeletion = (deletions, parentEle) => {
+  for (let i = 0; i < deletions.length; i++) {
+    const deletion = deletions[i]
+    parentEle.removeChild(getChildNode(deletion))
+  }
 }
 
 const getParentNode = wip => {
@@ -107,4 +118,13 @@ const getParentNode = wip => {
     }
     temp = temp.return
   }
+}
+
+const getChildNode = wip => {
+  let temp = wip
+  while (!temp.stateNode) {
+    temp = temp.child
+  }
+
+  return temp.stateNode
 }

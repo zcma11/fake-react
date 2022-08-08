@@ -82,6 +82,10 @@ export const reconcileChildren = (wip, children) => {
       })
     }
 
+    if (!isSame && oldFiber) {
+      deleteChild(wip, oldFiber)
+    }
+
     if (oldFiber) {
       oldFiber = oldFiber.sibling
     }
@@ -93,5 +97,15 @@ export const reconcileChildren = (wip, children) => {
     }
 
     lastFiber = fiber
+  }
+}
+
+export const deleteChild = (returnFiber, childFiber) => {
+  const deletions = returnFiber.deletions
+
+  if (deletions) {
+    deletions.push(childFiber)
+  } else {
+    returnFiber.deletions = [childFiber]
   }
 }
