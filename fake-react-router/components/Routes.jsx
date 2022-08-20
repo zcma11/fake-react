@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { isValidElement } from 'react'
 import { useRoutes } from '../hooks'
+import { formatRoute } from '../utils'
 
-export const Routes = props => {
+const createRoutesChildren = (parentPath, children) => {
   const routes = []
-  React.Children.forEach(props.children, child => {
+  React.Children.forEach(children, child => {
+    if (!isValidElement(child)) {
+      return
+    }
+
     let route = {
-      path: child.props.path,
+      path: child.props.path && formatRoute(parentPath + child.props.path),
       element: child.props.element
+    }
+
+    if (child.props.children) {
+      route.children = createRoutesChildren(route.path, child.props.children)
     }
 
     routes.push(route)
   })
 
-  console.log(props)
+  return routes
+}
+
+export const Routes = props => {
+  const routes = createRoutesChildren('/', props.children)
+  console.log(routes)
   return useRoutes(routes)
 }

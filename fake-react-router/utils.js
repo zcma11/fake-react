@@ -1,5 +1,13 @@
 import { createContext } from 'react'
 
 const NavigationContext = createContext()
+const RouteContext = createContext({
+  matches: [],
+  outlet: null
+})
 
-export { NavigationContext }
+export { NavigationContext, RouteContext }
+
+export const formatRoute = routePath => {
+  return routePath.replace(/\/+$/, '').replace(/^\/*/, '/')
+}

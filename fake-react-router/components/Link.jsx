@@ -1,4 +1,4 @@
-import { useNavigate } from '../hooks/useNavigate'
+import { useNavigate } from '../hooks'
 
 export const Link = ({ to, children }) => {
   const navigator = useNavigate()
@@ -7,5 +7,9 @@ export const Link = ({ to, children }) => {
     navigator(to)
   }
 
-  return <a onClick={handlerClick}>{children}</a>
+  return (
+    <a href={to} onClick={handlerClick}>
+      {children}
+    </a>
+  )
 }
